@@ -1,8 +1,17 @@
-import { ADD_ONE, APPLY_NUMBER, CHANGE_OPERATION } from "./../actions";
+import {
+  ADD_ONE,
+  APPLY_NUMBER,
+  CHANGE_OPERATION,
+  clearDisplay,
+  CLEAR_DISPLAY,
+  MEMORY_ADD,
+  MEMORY_CLEAR,
+  MEMORY_RECALL,
+} from "./../actions";
 
 export const initialState = {
   total: 100,
-  operation: "-",
+  operation: "+",
   memory: 100,
 };
 
@@ -20,6 +29,7 @@ const calculateResult = (num1, num2, operation) => {
 };
 
 const reducer = (state, action) => {
+  console.log("state", state, action);
   switch (action.type) {
     case ADD_ONE:
       return {
@@ -39,6 +49,23 @@ const reducer = (state, action) => {
         operation: action.payload,
       };
 
+    case CLEAR_DISPLAY:
+      return {
+        ...state,
+        total: 0,
+      };
+
+    case MEMORY_ADD:
+      return {
+        ...state,
+        memory: state.total,
+      };
+
+    case MEMORY_RECALL:
+      return {
+        ...state,
+        total: calculateResult(state.total, state.memory, state.operation),
+      };
     default:
       return state;
   }

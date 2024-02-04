@@ -4,7 +4,21 @@ import TotalDisplay from "./components/TotalDisplay";
 import CalcButton from "./components/CalcButton";
 
 import reducer, { initialState } from "./reducers";
-import { ADD_ONE,addOne, CHANGE_OPERATION, APPLY_NUMBER, applyNumber } from "./actions";
+import {
+  ADD_ONE,
+  CHANGE_OPERATION,
+  addOne,
+  APPLY_NUMBER,
+  applyNumber,
+  CLEAR_DISPLAY,
+  clearDisplay,
+  MEMORY_ADD,
+  MEMORY_RECALL,
+  MEMORY_CLEAR,
+  memoryAdd,
+  memoryClear,
+  memoryRecall,
+} from "./actions";
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -13,10 +27,10 @@ function App() {
     dispatch(applyNumber(number));
   };
 
-  const handleOperationChange= (e)=>{
-    const operation =e.target.value;
-    dispatch({type:"CHANGE_OPERATİON",payload:operation});
-  }
+  const handleOperationChange = (e) => {
+    const operation = e.target.value;
+    dispatch({ type: CHANGE_OPERATION, payload: operation });
+  };
   return (
     <div className="App">
       <nav className="navbar navbar-dark bg-dark">
@@ -37,18 +51,20 @@ function App() {
             </div>
 
             <div className="row">
-              <CalcButton value={"M+"} />
-              <CalcButton value={"MR"} />
-              <CalcButton value={"MC"} />
+              <CalcButton onClick={() => dispatch(memoryAdd())} value={"M+"} />
+              <CalcButton
+                onClick={() => dispatch(memoryRecall())}
+                value={"MR"}
+              />
+              <CalcButton
+                onClick={() => dispatch(memoryClear())}
+                value={"MC"}
+              />
             </div>
 
             <div className="row">
-              <CalcButton
-                value={1}
-                onClick={handleNumberClick}              />
-              <CalcButton
-                value={2} onClick={handleNumberClick}
-              />
+              <CalcButton value={1} onClick={handleNumberClick} />
+              <CalcButton value={2} onClick={handleNumberClick} />
               <CalcButton value={3} onClick={handleNumberClick} />
             </div>
 
@@ -65,13 +81,16 @@ function App() {
             </div>
 
             <div className="row">
-              <CalcButton value={"+"} onClick={handleOperationChange}/>
-              <CalcButton value={"*"} onClick={handleOperationChange}/>
-              <CalcButton value={"-"} onClick={handleOperationChange}/>
+              <CalcButton value={"+"} onClick={handleOperationChange} />
+              <CalcButton value={"*"} onClick={handleOperationChange} />
+              <CalcButton value={"-"} onClick={handleOperationChange} />
             </div>
 
             <div className="row ce_button">
-              <CalcButton value={"CE"} />
+              <CalcButton
+                value={"CE"}
+                onClick={() => dispatch(clearDisplay())}
+              />
             </div>
           </form>
         </div>
